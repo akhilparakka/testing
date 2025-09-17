@@ -265,6 +265,7 @@ export function GraphProvider({ children }: { children: ReactNode }) {
   };
 
   const streamMessageV2 = async (params: GraphInput) => {
+    console.log("🔄 STARTING STREAM with params:", params);
     setFirstTokenReceived(false);
     setError(false);
     if (!assistantsData.selectedAssistant) {
@@ -347,6 +348,12 @@ export function GraphProvider({ children }: { children: ReactNode }) {
     // The ID of the message containing the thinking content.
     let thinkingMessageId = "";
 
+    console.log("📡 PREPARING TO CALL LANGGRAPH API:", {
+      threadId: currentThreadId,
+      assistantId: assistantsData.selectedAssistant.assistant_id,
+      input: input,
+    });
+
     try {
       const workerService = new StreamWorkerService();
       const stream = workerService.streamData({
@@ -396,6 +403,8 @@ export function GraphProvider({ children }: { children: ReactNode }) {
       let webSearchMessageId = "";
 
       for await (const chunk of stream) {
+        console.log("📥 RECEIVED STREAM CHUNK:", chunk);
+
         if (chunk.event === "error") {
           const errorMessage =
             chunk?.data?.message || "Unknown error. Please try again.";
@@ -454,23 +463,46 @@ export function GraphProvider({ children }: { children: ReactNode }) {
           }
 
           if (event === "on_chat_model_stream") {
+            console.log("🎯 PROCESSING CHAT MODEL STREAM EVENT:", {
+              langgraphNode,
+              event,
+              hasNodeChunk: !!nodeChunk,
+            });
+
             // These are generating new messages to insert to the chat window.
             if (
-              ["generateFollowup", "replyToGeneralInput"].includes(
-                langgraphNode
-              )
+              [
+                "generateFollowup",
+                "replyToGeneralInput",
+                "generate_path",
+              ].includes(langgraphNode)
             ) {
+              console.log("✅ NODE IS IN ALLOWED LIST:", langgraphNode);
+              if (langgraphNode === "generate_path") {
+                console.log(
+                  "🎉 DETECTED generate_path STREAMING - THIS SHOULD FIX THE UI ISSUE!"
+                );
+              }
               const message = extractStreamDataChunk(nodeChunk);
+              console.log("💬 EXTRACTED MESSAGE FROM CHUNK:", message);
               if (!followupMessageId) {
                 followupMessageId = message.id;
               }
+              console.log("🔄 UPDATING MESSAGES STATE with message:", message);
               setMessages((prevMessages) =>
                 replaceOrInsertMessageChunk(prevMessages, message)
+              );
+            } else {
+              console.log(
+                "❌ NODE NOT IN ALLOWED LIST:",
+                langgraphNode,
+                "- SKIPPING UI UPDATE"
               );
             }
 
             if (langgraphNode === "generateArtifact") {
               const message = extractStreamDataChunk(nodeChunk);
+              console.log("🎨 PROCESSING ARTIFACT CHUNK:", message);
 
               // Accumulate content
               if (
@@ -478,22 +510,30 @@ export function GraphProvider({ children }: { children: ReactNode }) {
                 typeof message?.tool_call_chunks?.[0]?.args === "string"
               ) {
                 generateArtifactToolCallStr += message.tool_call_chunks[0].args;
+                console.log(
+                  "🔧 ACCUMULATING TOOL CALL ARGS:",
+                  message.tool_call_chunks[0].args
+                );
               } else if (
                 message?.content &&
                 typeof message?.content === "string"
               ) {
                 generateArtifactToolCallStr += message.content;
+                console.log("📝 ACCUMULATING CONTENT:", message.content);
               }
 
               // Process accumulated content with rate limiting
               const result = handleGenerateArtifactToolCallChunk(
                 generateArtifactToolCallStr
               );
+              console.log("⚙️ ARTIFACT PROCESSING RESULT:", result);
 
               if (result) {
                 if (result === "continue") {
+                  console.log("⏳ CONTINUING TO ACCUMULATE...");
                   continue;
                 } else if (typeof result === "object") {
+                  console.log("✅ CREATED ARTIFACT:", result);
                   if (!firstTokenReceived) {
                     setFirstTokenReceived(true);
                   }
@@ -1229,7 +1269,7 @@ export function GraphProvider({ children }: { children: ReactNode }) {
           }
         } catch (e: any) {
           console.error(
-            "Failed to parse stream chunk",
+            "❌ Failed to parse stream chunk",
             chunk,
             "\n\nError:\n",
             e
@@ -1240,6 +1280,7 @@ export function GraphProvider({ children }: { children: ReactNode }) {
             errorMessage = e.message;
           }
 
+          console.log("🚨 STREAM ERROR:", errorMessage);
           toast({
             title: "Error generating content",
             description: errorMessage,
@@ -1251,10 +1292,12 @@ export function GraphProvider({ children }: { children: ReactNode }) {
           break;
         }
       }
+      console.log("✅ STREAM COMPLETED SUCCESSFULLY");
       lastSavedArtifact.current = artifact;
     } catch (e) {
-      console.error("Failed to stream message", e);
+      console.error("❌ Failed to stream message", e);
     } finally {
+      console.log("🔚 STREAM FINISHED - CLEANING UP");
       setSelectedBlocks(undefined);
       setIsStreaming(false);
     }

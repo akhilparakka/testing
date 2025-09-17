@@ -70,6 +70,14 @@ export function ContentComposerChatInterfaceComponent(
     if (message.startRun === false) return;
     // Removed user authentication check - allow all users
 
+    console.log(
+      "🔵 SENDING MESSAGE:",
+      message.content?.[0]?.type === "text"
+        ? message.content[0].text
+        : "Non-text content"
+    );
+    console.log("📎 ATTACHMENTS:", message.attachments?.length || 0);
+
     if (message.content?.[0]?.type !== "text") {
       toast({
         title: "Only text messages are supported",
@@ -111,6 +119,7 @@ export function ContentComposerChatInterfaceComponent(
 
       setMessages((prevMessages) => [...prevMessages, humanMessage]);
 
+      console.log("🚀 CALLING STREAM MESSAGE with humanMessage:", humanMessage);
       await streamMessage({
         messages: [convertToOpenAIFormat(humanMessage)],
       });
