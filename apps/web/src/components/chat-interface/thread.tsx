@@ -97,16 +97,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
           <ThreadHistory
             switchSelectedThreadCallback={switchSelectedThreadCallback}
           />
-          <TighterText className="text-xl">Open Canvas</TighterText>
-          {!hasChatStarted && (
-            <ModelSelector
-              modelName={modelName}
-              setModelName={setModelName}
-              modelConfig={modelConfig}
-              setModelConfig={setModelConfig}
-              modelConfigs={modelConfigs}
-            />
-          )}
+          <TighterText className="text-xl">Scrum Agent</TighterText>
         </div>
         {hasChatStarted ? (
           <div className="flex flex-row flex-1 gap-2 items-center justify-end">

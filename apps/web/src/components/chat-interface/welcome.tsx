@@ -1,40 +1,40 @@
 import { ProgrammingLanguageOptions } from "@opencanvas/shared/types";
 import { ThreadPrimitive, useThreadRuntime } from "@assistant-ui/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { FC, useMemo } from "react";
 import { TighterText } from "../ui/header";
-import { NotebookPen } from "lucide-react";
+import { NotebookPen, Target } from "lucide-react";
 import { ProgrammingLanguagesDropdown } from "../ui/programming-lang-dropdown";
 import { Button } from "../ui/button";
 
 const QUICK_START_PROMPTS_SEARCH = [
-  "Write a market analysis of AI chip manufacturers in 2025",
-  "Create a blog post about the latest climate change policies and their impact",
-  "Draft an investor update on renewable energy trends this quarter",
-  "Write a report on current cybersecurity threats in cloud computing",
-  "Analyze the latest developments in quantum computing for a tech newsletter",
-  "Create a summary of emerging medical breakthroughs in cancer treatment",
-  "Write about the impact of current interest rates on the housing market",
-  "Draft an article about breakthroughs in battery technology this year",
-  "Analyze current supply chain disruptions in semiconductor manufacturing",
-  "Write about how recent AI regulations affect business innovation",
+  "Analyze sprint velocity trends for our development team",
+  "Research best practices for remote agile team management",
+  "Create a market analysis of agile project management tools",
+  "Write about emerging trends in DevOps and CI/CD practices",
+  "Analyze the impact of AI on software development productivity",
+  "Research effective techniques for managing technical debt",
+  "Create a report on agile transformation success stories",
+  "Write about the future of remote work in software development",
+  "Analyze current trends in microservices architecture",
+  "Research best practices for agile requirements gathering",
 ];
 
 const QUICK_START_PROMPTS = [
-  "Write a bedtime story about a brave little robot",
-  "Create a function to calculate Fibonacci numbers in TypeScript",
-  "Draft a resignation letter for a position I've had for 2 years",
-  "Build a simple weather dashboard using React and Tailwind",
-  "Write a poem about artificial intelligence",
-  "Create a basic Express.js REST API with two endpoints",
-  "Draft a congratulatory speech for my sister's graduation",
-  "Build a command-line calculator in Python",
-  "Write instructions for making perfect scrambled eggs",
-  "Create a simple snake game using HTML canvas",
-  "Write me a TODO app in React",
-  "Explain why the sky is blue in a short essay",
-  "Help me draft an email to my professor Craig",
-  "Write a web scraping program in Python",
+  "Create a sprint planning template for our development team",
+  "Write user stories for a new authentication feature",
+  "Draft a burndown chart analysis for the current sprint",
+  "Create a retrospective template for team feedback",
+  "Write acceptance criteria for a login feature",
+  "Draft a product backlog refinement checklist",
+  "Create a daily standup meeting agenda",
+  "Write a definition of done for our team",
+  "Create a sprint review presentation template",
+  "Write a product increment demonstration script",
+  "Draft a team charter for our agile development team",
+  "Create a velocity tracking spreadsheet template",
+  "Write a guide for effective pair programming",
+  "Create a checklist for sprint planning meetings",
 ];
 
 function getRandomPrompts(prompts: string[], count: number = 4): string[] {
@@ -100,21 +100,21 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full">
       <div className="flex flex-col gap-6">
-        <p className="text-gray-600 text-sm">Start with a blank canvas</p>
+        <p className="text-gray-600 text-sm">Start with a blank board</p>
         <div className="flex flex-row gap-1 items-center justify-center w-full">
           <Button
             variant="outline"
             className="text-gray-500 hover:text-gray-700 transition-colors ease-in rounded-2xl flex items-center justify-center gap-2 w-[250px] h-[64px]"
             onClick={() => props.handleQuickStart("text")}
           >
-            New Markdown
+            New Document
             <NotebookPen />
           </Button>
           <ProgrammingLanguagesDropdown handleSubmit={handleLanguageSubmit} />
         </div>
       </div>
       <div className="flex flex-col gap-6 mt-2 w-full">
-        <p className="text-gray-600 text-sm">or with a message</p>
+        <p className="text-gray-600 text-sm">or start a conversation</p>
         {props.composer}
         <QuickStartPrompts searchEnabled={props.searchEnabled} />
       </div>
@@ -138,12 +138,11 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
     <ThreadPrimitive.Empty>
       <div className="flex items-center justify-center mt-16 w-full">
         <div className="text-center max-w-3xl w-full">
-          <Avatar className="mx-auto">
-            <AvatarImage src="/lc_logo.jpg" alt="LangChain Logo" />
-            <AvatarFallback>LC</AvatarFallback>
-          </Avatar>
+          <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+            <Target className="w-8 h-8 text-blue-600" />
+          </div>
           <TighterText className="mt-4 text-lg font-medium">
-            What would you like to write today?
+            How can I help with your Scrum and Agile projects?
           </TighterText>
           <div className="mt-8 w-full">
             <QuickStartButtons

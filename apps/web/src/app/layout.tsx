@@ -9,8 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Open Canvas",
-  description: "Open Canvas Chat UX by LangChain",
+  title: "Scrum Agent",
+  description:
+    "Scrum Agent - AI-powered Scrum and Agile project management assistant",
 };
 
 export default function RootLayout({

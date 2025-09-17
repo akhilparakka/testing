@@ -1,23 +1,23 @@
-# Open Canvas
+# Scrum Agent
 
-[TRY IT OUT HERE](https://opencanvas.langchain.com/)
+[TRY IT OUT HERE](https://scrumagent.com/)
 
 ![Screenshot of app](./static/screenshot.png)
 
-Open Canvas is an open source web application for collaborating with agents to better write documents. It is inspired by [OpenAI's "Canvas"](https://openai.com/index/introducing-canvas/), but with a few key differences.
+Scrum Agent is an open source web application for collaborating with AI agents to manage Scrum and Agile projects. It provides intelligent assistance for sprint planning, user story creation, retrospective facilitation, and agile project management.
 
-1. **Open Source**: All the code, from the frontend, to the content generation agent, to the reflection agent is open source and MIT licensed.
-2. **Built in memory**: Open Canvas ships out of the box with a [reflection agent](https://langchain-ai.github.io/langgraphjs/tutorials/reflection/reflection/) which stores style rules and user insights in a [shared memory store](https://langchain-ai.github.io/langgraphjs/concepts/memory/). This allows Open Canvas to remember facts about you across sessions.
-3. **Start from existing documents**: Open Canvas allows users to start with a blank text, or code editor in the language of their choice, allowing you to start the session with your existing content, instead of being forced to start with a chat interaction. We believe this is an ideal UX because many times you will already have some content to start with, and want to iterate on-top of it.
+1. **Open Source**: All the code, from the frontend, to the Scrum generation agent, to the reflection agent is open source and MIT licensed.
+2. **Built in memory**: Scrum Agent ships out of the box with a [reflection agent](https://langchain-ai.github.io/langgraphjs/tutorials/reflection/reflection/) which stores style rules and user insights in a [shared memory store](https://langchain-ai.github.io/langgraphjs/concepts/memory/). This allows Scrum Agent to remember facts about you and your team across sessions.
+3. **Start from templates**: Scrum Agent allows users to start with pre-built templates for sprint planning, retrospectives, user stories, and other agile ceremonies, or create custom documents from scratch.
 
 ## Features
 
-- **Memory**: Open Canvas has a built in memory system which will automatically generate reflections and memories on you, and your chat history. These are then included in subsequent chat interactions to give a more personalized experience.
-- **Custom quick actions**: Custom quick actions allow you to define your own prompts which are tied to your user, and persist across sessions. These then can be easily invoked through a single click, and apply to the artifact you're currently viewing.
-- **Pre-built quick actions**: There are also a series of pre-built quick actions for common writing and coding tasks that are always available.
-- **Artifact versioning**: All artifacts have a "version" tied to them, allowing you to travel back in time and see previous versions of your artifact.
-- **Code, Markdown, or both**: The artifact view allows for viewing and editing both code, and markdown. You can even have chats which generate code, and markdown artifacts, and switch between them.
-- **Live markdown rendering & editing**: Open Canvas's markdown editor allows you to view the rendered markdown while you're editing, without having to toggle back and fourth.
+- **Memory**: Scrum Agent has a built in memory system which will automatically generate reflections and memories about you, your team, and your project management preferences. These are then included in subsequent interactions to provide personalized agile assistance.
+- **Custom quick actions**: Custom quick actions allow you to define your own Scrum and agile prompts which are tied to your user, and persist across sessions. These can be easily invoked for common agile ceremonies and processes.
+- **Pre-built quick actions**: There are pre-built quick actions for common Scrum activities like sprint planning, retrospectives, user story creation, burndown chart analysis, and team charter development.
+- **Artifact versioning**: All Scrum artifacts have version control, allowing you to track changes in user stories, sprint plans, and other agile documents over time.
+- **Document types**: Support for creating and editing various agile documents including user stories, sprint plans, retrospectives, team charters, and project documentation.
+- **Live markdown rendering & editing**: Scrum Agent's markdown editor allows you to view rendered content while editing agile documents, making it easy to create well-formatted Scrum artifacts.
 
 ## Setup locally
 
@@ -40,7 +40,6 @@ Open Canvas requires the following API keys and external services:
 - (optional) [Groq AI API key](https://groq.com) - audio/video transcription
 - (optional) [FireCrawl API key](https://firecrawl.dev) - web scraping
 - (optional) [ExaSearch API key](https://exa.ai) - web search
-
 
 #### Authentication
 
