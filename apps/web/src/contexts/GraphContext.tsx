@@ -476,36 +476,29 @@ export function GraphProvider({ children }: { children: ReactNode }) {
                 "replyToGeneralInput",
                 "generate_path",
                 "super_agent",
-                "generate_artifact",
+                "generateArtifact", // Fixed: use camelCase to match backend node name
                 "routing_tools",
               ].includes(langgraphNode)
             ) {
-              console.log("✅ NODE IS IN ALLOWED LIST:", langgraphNode);
-              if (langgraphNode === "generate_path") {
-                console.log(
-                  "🎉 DETECTED generate_path STREAMING - THIS SHOULD FIX THE UI ISSUE!"
-                );
-              }
               const message = extractStreamDataChunk(nodeChunk);
-              console.log("💬 EXTRACTED MESSAGE FROM CHUNK:", message);
               if (!followupMessageId) {
                 followupMessageId = message.id;
               }
-              console.log("🔄 UPDATING MESSAGES STATE with message:", message);
               setMessages((prevMessages) =>
                 replaceOrInsertMessageChunk(prevMessages, message)
-              );
-            } else {
-              console.log(
-                "❌ NODE NOT IN ALLOWED LIST:",
-                langgraphNode,
-                "- SKIPPING UI UPDATE"
               );
             }
 
             if (langgraphNode === "generateArtifact") {
               const message = extractStreamDataChunk(nodeChunk);
-              console.log("🎨 PROCESSING ARTIFACT CHUNK:", message);
+              console.log("🎨 ARTIFACT DEBUG:", {
+                hasMessage: !!message,
+                hasToolCalls: !!message?.tool_calls?.length,
+                hasToolCallChunks: !!message?.tool_call_chunks?.length,
+                messageContent: message?.content,
+                toolCalls: message?.tool_calls,
+                currentArtifact: !!artifact,
+              });
 
               // Accumulate content
               if (
@@ -540,7 +533,8 @@ export function GraphProvider({ children }: { children: ReactNode }) {
                   if (!firstTokenReceived) {
                     setFirstTokenReceived(true);
                   }
-                  // Use debounced setter to prevent too frequent updates
+                  // DEBUG: Log artifact creation
+                  console.log("🎯 SETTING ARTIFACT:", result);
                   setArtifact(result);
                 }
               }
