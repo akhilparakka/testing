@@ -475,6 +475,9 @@ export function GraphProvider({ children }: { children: ReactNode }) {
                 "generateFollowup",
                 "replyToGeneralInput",
                 "generate_path",
+                "super_agent",
+                "generate_artifact",
+                "routing_tools",
               ].includes(langgraphNode)
             ) {
               console.log("✅ NODE IS IN ALLOWED LIST:", langgraphNode);
